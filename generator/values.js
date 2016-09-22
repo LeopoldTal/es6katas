@@ -18,7 +18,7 @@ describe('pass a value to a generator', () => {
 
 	it('pass a value to the iterator', function() {
 		function* generatorFunction() {
-			yield 1;
+			var param = yield 1;
 			yield param;
 		}
 		var iterator = generatorFunction();
@@ -28,7 +28,7 @@ describe('pass a value to a generator', () => {
 
 	it('a value passed to the 1st `next()` call is ignored', function() {
 		function* generatorFunction() {
-			yield 1;
+			yield (yield 1);
 		}
 		let iterator = generatorFunction();
 		const values = [
