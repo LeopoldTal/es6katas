@@ -76,13 +76,13 @@ describe('a promise can be created in multiple ways', function() {
 			]);
 
 			promise
-					.then(value => { assert.deepEqual(value, [1, 2]); done(); })
+					.then(value => { assert.deepEqual(value, [1, 2, 3]); done(); })
 					.catch(e => done(new Error(e)));
 		});
 
 		it('is rejected if one rejects', function(done) {
 			const promise = Promise.all([
-				new Promise(resolve => resolve(1))
+				new Promise((resolve, reject) => reject())
 			]);
 
 			promise
@@ -97,7 +97,7 @@ describe('a promise can be created in multiple ways', function() {
 		it('if it resolves first, the promises resolves', function(done) {
 			const lateRejectedPromise = new Promise((resolve, reject) => setTimeout(reject, 100));
 			const earlyResolvingPromise = new Promise(resolve => resolve('1st :)'));
-			const promise = Promise.race([lateRejectedPromise]);
+			const promise = Promise.race([lateRejectedPromise, earlyResolvingPromise]);
 
 			promise
 					.then(value => { assert.deepEqual(value, '1st :)'); done(); })
@@ -111,7 +111,7 @@ describe('a promise can be created in multiple ways', function() {
 
 			promise
 					.then(() => done(new NotRejectedError()))
-					.catch(value => { assert.equal(value, 'I am a rejector'); done(); })
+					.catch(value => { assert.equal(value, 'I am a REJECTOR'); done(); })
 					.catch(done);
 		});
 
@@ -120,15 +120,15 @@ describe('a promise can be created in multiple ways', function() {
 	describe('`Promise.resolve()` returns a resolving promise', function() {
 
 		it('if no value given, it resolves with `undefined`', function(done) {
-			const promise = Promise.resolve;
+			const promise = Promise.resolve();
 
 			promise
-					.then(value => { assert.deepEqual(value, void 0); done(); })
+					.then(value => { assert.deepEqual(value, undefined); done(); })
 					.catch(e => done(new Error('Expected to resolve, but failed with: ' + e)));
 		});
 
 		it('resolves with the given value', function(done) {
-			const promise = Promise.resolve();
+			const promise = Promise.resolve('quick resolve');
 
 			promise
 					.then(value => { assert.equal(value, 'quick resolve'); done(); })
@@ -140,7 +140,7 @@ describe('a promise can be created in multiple ways', function() {
 	describe('`Promise.reject()` returns a rejecting promise', function() {
 
 		it('if no value given, it rejects with `undefined`', function(done) {
-			const promise = Promise.resolve();
+			const promise = Promise.reject();
 
 			promise
 					.then(() => done(new NotRejectedError()))
@@ -149,7 +149,7 @@ describe('a promise can be created in multiple ways', function() {
 		});
 
 		it('the parameter passed to `reject()` can be used in the `.catch()`', function(done) {
-			const promise = Promise;
+			const promise = Promise.reject('quick reject');
 
 			promise
 					.then(() => done(new NotRejectedError()))
