@@ -16,7 +16,7 @@ describe('An object literal can also contain setters', () => {
 		it('must have exactly one parameter', function() {
 			let setterCalledWith = void 0;
 			const obj = {
-				x() { // <<<<=== it's not a setter yet!
+				set x(value) { // <<<<=== it's not a setter yet!
 					if (arguments.length === 1) {
 						setterCalledWith = arguments[0];
 					}
