@@ -69,7 +69,7 @@ describe('`Reflect.defineProperty()` is like `Object.defineProperty()` but retur
 		});
 	});
 
-	describe('the return value of the function indicates wether the property was defined successfully', function() {
+	describe('the return value of the function indicates whether the property was defined successfully', function() {
 		describe('returns true', function() {
 			it('when the property was created (which requires the 3rd parameter too!!!)', function() {
 				let instance = new class {};
@@ -82,10 +82,11 @@ describe('`Reflect.defineProperty()` is like `Object.defineProperty()` but retur
 				assert.equal(wasPropertyDefined, true);
 			});
 		});
+		// These last two always fail, see issue 25 (https://github.com/tddbin/katas/issues/25)
 		describe('returns false', function() {
 			it('when no property name is given (since no property has been added)', function() {
 				let instance = new class {};
-				const wasPropertyDefined = Reflect.defineProperty(instance, , {});
+				const wasPropertyDefined = Reflect.defineProperty(instance);
 				assert.equal(wasPropertyDefined, false);
 			});
 			it('when no 3rd parameter, the descriptor is given', function() {
