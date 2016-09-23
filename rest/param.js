@@ -1,6 +1,9 @@
 // 18: rest - as-parameter
 // To do: make all tests pass, leave the assert lines unchanged!
 
+// More doc on rest and spread:
+// https://rainsoft.io/how-three-dots-changed-javascript/
+
 describe('rest in function params', () => {
 
 	it('must be the last parameter', () => {
