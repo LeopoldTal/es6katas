@@ -43,6 +43,9 @@ describe('a promise can be created in multiple ways', function() {
 
 	});
 
+	// babel does not support extending Promise (but native ES6 in major browsers does)
+	// https://github.com/babel/babel/issues/1120
+	// https://kangax.github.io/compat-table/es6/#Promise_is_subclassable
 	describe('extending a `Promise`', function() {
 
 		it('using `class X extends Promise{}` is possible', function() {
